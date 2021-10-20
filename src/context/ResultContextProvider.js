@@ -6,7 +6,7 @@ const baseUrl = `https://google-search3.p.rapidapi.com/api/v1`;
 export const ResultContextProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('Js Mastery');
+  const [searchTerm, setSearchTerm] = useState('Elon Musk');
 
   const getResults = async (type) => {
     setLoading(true);
@@ -20,7 +20,14 @@ export const ResultContextProvider = ({ children }) => {
     });
     const data = await res.json();
 
-    setResults(data);
+    if (type.includes('/news')) {
+      setResults(data.entries);
+    } else if (type.includes('/images')) {
+      setResults(data.image_results);
+    } else {
+      setResults(data.results);
+    }
+
     setLoading(false);
   };
 
